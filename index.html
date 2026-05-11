@@ -1,1 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tomas Franco | Robotics And Mechatronics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    html {
+      scroll-behavior: smooth;
+      background: #000000;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #000000;
+      color: #ffffff;
+      font-family: "Space Grotesk", Arial, sans-serif;
+      line-height: 1.55;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 200;
+      background:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 42px 42px;
+      animation: grid-drift 18s linear infinite;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 201;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.12), transparent 18rem);
+      mix-blend-mode: difference;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      background: #000000;
+      border-bottom: 1px solid #ffffff;
+    }
+
+    .nav-logo {
+      font-family: "Space Mono", monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.14em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+      text-decoration: none;
+      letter-spacing: 0.14em;
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-links a:hover {
+      border-bottom-color: #ffffff;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      border-bottom: 1px solid #ffffff;
+      position: relative;
+    }
+
+    .eyebrow,
+    .section-title,
+    .project-tag,
+    .mini-label {
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+    }
+
+    .eyebrow {
+      margin-bottom: 1.4rem;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 9vw, 8.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.06em;
+      margin-bottom: 1.6rem;
+      max-width: 900px;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      margin-bottom: 2rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .button {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.85rem 1.25rem;
+      border: 1px solid #ffffff;
+      background: #000000;
+      color: #ffffff;
+      font-family: "Space Mono", monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      transform: translateX(-101%);
+      transition: transform 0.24s ease;
+      z-index: -1;
+    }
+
+    .button:hover::before,
+    .button.primary::before {
+      transform: translateX(0);
+    }
+
+    .button:hover,
+    .button.primary {
+      color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .button.primary:hover::before {
+      transform: translateX(101%);
+    }
+
+    .button.primary:hover {
+      color: #ffffff;
+    }
+
+    .hero-visual {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .image-frame {
+      border: 1px solid #ffffff;
+      overflow: hidden;
+      background: #000000;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .image-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.22) 45%, transparent 60%);
+      transform: translateX(-120%);
+      transition: transform 0.65s ease;
+      pointer-events: none;
+    }
+
+    .image-frame:hover::after {
+      transform: translateX(120%);
+    }
+
+    .image-frame img {
+      filter: grayscale(1) contrast(1.2);
+      transition: transform 0.45s ease, filter 0.45s ease;
+    }
+
+    .image-frame:hover img {
+      transform: scale(1.04);
+      filter: grayscale(1) contrast(1.45);
+    }
+
+    .hero-visual .image-frame img {
+      height: min(58vh, 620px);
+      object-fit: cover;
+    }
+
+    .document-panel {
+      border: 1px solid #ffffff;
+      padding: 1.4rem;
+      display: grid;
+      gap: 1rem;
+      background: #000000;
+    }
+
+    .document-panel h2 {
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .document-panel p {
+      font-size: 0.92rem;
+    }
+
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+      white-space: nowrap;
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      padding: 0.9rem 0;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-right: 2rem;
+      animation: marquee 18s linear infinite;
+    }
+
+    section {
+      padding: 5rem 3rem;
+      border-bottom: 1px solid #ffffff;
+    }
+
+    .section-title {
+      margin-bottom: 2.5rem;
+    }
+
+    .featured-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid #ffffff;
+      margin-bottom: 3rem;
+    }
+
+    .featured-strip .image-frame {
+      border: 0;
+      border-right: 1px solid #ffffff;
+      min-height: 260px;
+    }
+
+    .featured-strip .image-frame:last-child {
+      border-right: 0;
+    }
+
+    .featured-strip img {
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      border: 1px solid #ffffff;
+    }
+
+    .project-card {
+      border-right: 1px solid #ffffff;
+      border-bottom: 1px solid #ffffff;
+      min-height: 520px;
+      display: grid;
+      grid-template-rows: 210px 1fr;
+      background: #000000;
+      transition: transform 0.22s ease, background 0.22s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .project-card:nth-child(3n) {
+      border-right: 0;
+    }
+
+    .project-media img {
+      height: 210px;
+      object-fit: cover;
+    }
+
+    .project-content {
+      padding: 1.7rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.4rem;
+    }
+
+    .project-tag {
+      font-size: 0.7rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .project-title {
+      font-size: 1.35rem;
+      line-height: 1.12;
+      margin-bottom: 0.85rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+    }
+
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+
+    .project-link {
+      font-family: "Space Mono", monospace;
+      font-size: 0.7rem;
+      text-decoration: none;
+      border-bottom: 1px solid #ffffff;
+      padding-bottom: 0.2rem;
+    }
+
+    .project-link:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-group {
+      border: 1px solid #ffffff;
+      padding: 1.6rem;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .skill-group:hover {
+      transform: translateY(-4px);
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .skill-group h3 {
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.14em;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-text {
+      display: grid;
+      gap: 1rem;
+      font-size: 1rem;
+    }
+
+    .education-card {
+      border: 1px solid #ffffff;
+      padding: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .education-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .education-card p {
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: end;
+    }
+
+    .contact-heading {
+      font-size: clamp(2.4rem, 6vw, 5.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 0.8rem;
+      justify-items: start;
+    }
+
+    .contact-link {
+      font-family: "Space Mono", monospace;
+      font-size: 0.85rem;
+      text-decoration: none;
+      border-bottom: 1px solid #ffffff;
+      padding-bottom: 0.25rem;
+    }
+
+    footer {
+      padding: 1.6rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes grid-drift {
+      from { background-position: 0 0; }
+      to { background-position: 42px 42px; }
+    }
+
+    @media (max-width: 1000px) {
+      .hero,
+      .about-grid,
+      .contact-wrap,
+      .featured-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-strip .image-frame {
+        border-right: 0;
+        border-bottom: 1px solid #ffffff;
+      }
+
+      .featured-strip .image-frame:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 1rem 1.25rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero,
+      section {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .project-card,
+      .project-card:nth-child(3n) {
+        border-right: 0;
+      }
+
+      footer {
+        padding: 1.5rem 1.25rem;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="#top">TF PORTFOLIO</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="reveal">
+        <p class="eyebrow">Robotics | Mechatronics | Machine Learning</p>
+        <h1>Tomas Franco</h1>
+        <p class="hero-copy">M.S. Mechanical Engineering candidate at Cal Poly SLO building robotic systems that perceive, decide, and act. My work spans LLM guided manipulation, autonomous driving, PCB design, embedded systems, and computer vision.</p>
+        <div class="button-row">
+          <a class="button primary" href="#projects">View Projects</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">View Resume</a>
+          <a class="button" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">View Mechatronics Portfolio</a>
+        </div>
+      </div>
+
+      <aside class="hero-visual reveal">
+        <div class="image-frame tilt">
+          <img src="assets/thesis-qarm.jpg" alt="Quanser QArm robot facing a stack of cubes">
+        </div>
+        <div class="document-panel">
+          <p class="mini-label">Project Documents</p>
+          <h2>Resume And Dark Format Mechatronics Portfolio</h2>
+          <p>Both documents are linked directly from the homepage so visitors can open them without searching through the repo.</p>
+          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Open Portfolio</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">Open Resume</a>
+          <a class="button" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
+          <a class="button" href="https://www.linkedin.com/in/tomasfranco7/" target="_blank">LinkedIn</a>
+        </div>
+      </aside>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <span>ROBOTICS | MECHATRONICS | MACHINE LEARNING | COMPUTER VISION | EMBEDDED SYSTEMS | PCB DESIGN | ROBOT MANIPULATION | </span><span>ROBOTICS | MECHATRONICS | MACHINE LEARNING | COMPUTER VISION | EMBEDDED SYSTEMS | PCB DESIGN | ROBOT MANIPULATION | </span>
+    </div>
+
+    <section id="projects">
+      <p class="section-title reveal">Selected Projects</p>
+      <div class="featured-strip reveal">
+        <div class="image-frame"><img src="assets/mxcarkit.jpg" alt="Small autonomous vehicle platform"></div>
+        <div class="image-frame"><img src="assets/romi.jpg" alt="Romi line following robot"></div>
+        <div class="image-frame"><img src="assets/dal-i.jpg" alt="DAL-I robotic drafter"></div>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/thesis-qarm.jpg" alt="Thesis pick and place robot"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">Thesis In Progress</p>
+              <h2 class="project-title">LLM Guided Autonomous Pick And Place</h2>
+              <p class="project-desc">Closed loop manipulation pipeline on the Quanser QArm using RGB depth sensing, YOLO instance segmentation, and an LLM planner. The system handles cube sorting and stacking with grasp checks, gain tuning, scene validation, and motion safety limits.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
+              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Portfolio Writeup</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/mxcarkit.jpg" alt="MXCarkit autonomous driving project"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">Autonomous Vehicles</p>
+              <h2 class="project-title">MXCarkit Autonomous Driving Pipeline</h2>
+              <p class="project-desc">Autonomous driving pipeline using Docker, PilotNet behavioral cloning, YOLOv11 traffic light detection, ROS2, Python, Foxglove validation, and live hardware testing on a small multi sensor vehicle platform.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://youtube.com/shorts/HvuyGzoIKhY?feature=share" target="_blank">Video</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/healbot-qarm.jpg" alt="Healbot Quanser QArm project"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">Vision And Speech Pipeline</p>
+              <h2 class="project-title">Healbot Robotic Assistant</h2>
+              <p class="project-desc">Robotic assistant that interprets symptom focused speech requests, selects the correct item with an LLM, uses YOLO for object detection, and completes pick and place actions with the Quanser QArm.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/TomasEzFranco/Healbot" target="_blank">GitHub</a>
+              <a class="project-link" href="https://www.youtube.com/watch?v=xKzFN9P7FqU&feature=youtu.be" target="_blank">Video</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/romi.jpg" alt="Romi line following robot hardware"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">Mobile Robotics</p>
+              <h2 class="project-title">ROMI Line Following Robot</h2>
+              <p class="project-desc">Differential drive robot using IR sensing, wheel encoders, IMU feedback, heading control, and dead reckoning to complete a closed course with checkpoints and wall detection.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/TomasEzFranco/Romi_Line_Follower" target="_blank">GitHub</a>
+              <a class="project-link" href="https://www.youtube.com/watch?v=yved8C4mFfU" target="_blank">Video</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/dal-i.jpg" alt="DAL-I robotic drafting system"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">PCB And Robotics</p>
+              <h2 class="project-title">DAL-I Robotic Drafter</h2>
+              <p class="project-desc">Robotic drafting system with an RRP architecture. I worked on electrical design, custom PCB development, board bring up, wiring, software, and physical system integration.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="https://github.com/TomasEzFranco/Robot-Aided-Drafter" target="_blank">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal tilt">
+          <div class="project-media image-frame"><img src="assets/healbot-pipeline.jpg" alt="Healbot pipeline diagram"></div>
+          <div class="project-content">
+            <div>
+              <p class="project-tag">System Design</p>
+              <h2 class="project-title">Speech To Robot Pipeline</h2>
+              <p class="project-desc">Pipeline concept showing speech input, LLM reasoning, vision detection, kinematics, and pick and place execution. This keeps the homepage focused on robotics, mechatronics, and system integration work.</p>
+            </div>
+            <div class="project-links">
+              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Portfolio</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <p class="section-title reveal">Technical Skills</p>
+      <div class="skills-grid">
+        <div class="skill-group reveal">
+          <h3>Robotics</h3>
+          <ul class="skill-list">
+            <li>Robot Manipulation</li>
+            <li>Motion Planning</li>
+            <li>Kinematics</li>
+            <li>Sensor Integration</li>
+            <li>Controller Tuning</li>
+          </ul>
+        </div>
+
+        <div class="skill-group reveal">
+          <h3>Software</h3>
+          <ul class="skill-list">
+            <li>Python</li>
+            <li>MATLAB</li>
+            <li>Linux</li>
+            <li>ROS2</li>
+            <li>Embedded Programming</li>
+          </ul>
+        </div>
+
+        <div class="skill-group reveal">
+          <h3>Perception And AI</h3>
+          <ul class="skill-list">
+            <li>OpenCV</li>
+            <li>YOLO</li>
+            <li>Machine Learning</li>
+            <li>LLM Integration</li>
+            <li>Validation Pipelines</li>
+          </ul>
+        </div>
+
+        <div class="skill-group reveal">
+          <h3>Hardware And CAD</h3>
+          <ul class="skill-list">
+            <li>PCB Design</li>
+            <li>Microcontrollers</li>
+            <li>Electrical Schematics</li>
+            <li>SolidWorks</li>
+            <li>Fusion 360</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <p class="section-title reveal">About</p>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>I work across the full mechatronics stack, from CAD and FEA to PCB design, embedded systems, perception pipelines, and machine learning.</p>
+          <p>I care about systems that work on real hardware, so my process focuses on testing, failure analysis, debugging, and building validation layers that make robotic behavior more reliable.</p>
+        </div>
+
+        <div class="reveal">
+          <div class="education-card">
+            <h3>M.S. Mechanical Engineering</h3>
+            <p>Cal Poly SLO | Expected June 2026</p>
+            <p>Thesis: LLM Guided Robotic Manipulation</p>
+            <p>GPA: 3.71</p>
+          </div>
+          <div class="education-card">
+            <h3>B.S. Mechanical Engineering</h3>
+            <p>Cal Poly SLO | March 2025</p>
+            <p>Focus: Mechatronics</p>
+            <p>GPA: 3.68 | Dean's List</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-wrap">
+        <h2 class="contact-heading reveal">Let's Build Something That Moves</h2>
+        <div class="contact-links reveal">
+          <a class="contact-link" href="mailto:tofranco@calpoly.edu">Email Tomas</a>
+          <a class="contact-link" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
+          <a class="contact-link" href="https://www.linkedin.com/in/tomasfranco7/" target="_blank">LinkedIn</a>
+          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">View Mechatronics Portfolio</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">View Resume</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Tomas Franco | Cal Poly SLO | 2026</p>
+    <p>Robotics | Mechatronics | Machine Learning</p>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    window.addEventListener("pointermove", event => {
+      root.style.setProperty("--x", event.clientX + "px");
+      root.style.setProperty("--y", event.clientY + "px");
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+
+    document.querySelectorAll(".tilt").forEach(card => {
+      card.addEventListener("pointermove", event => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        const rotateX = ((y / rect.height) - 0.5) * -5;
+        const rotateY = ((x / rect.width) - 0.5) * 5;
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener("pointerleave", () => {
+        card.style.transform = "";
+      });
+    });
+  </script>
+</body>
+</html>
