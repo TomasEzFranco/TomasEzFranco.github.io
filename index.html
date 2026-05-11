@@ -53,6 +53,12 @@
       mix-blend-mode: difference;
     }
 
+    :root {
+      --qarm-red: #ff2b2b;
+      --qarm-red-soft: rgba(255,43,43,0.18);
+      --qarm-red-glow: rgba(255,43,43,0.48);
+    }
+
     a {
       color: inherit;
     }
@@ -199,6 +205,16 @@
       gap: 1rem;
     }
 
+    .caption {
+      border: 1px solid #ffffff;
+      border-top: 0;
+      padding: 0.9rem 1rem;
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      background: #000000;
+    }
+
     .image-frame {
       border: 1px solid #ffffff;
       overflow: hidden;
@@ -228,7 +244,7 @@
 
     .image-frame:hover img {
       transform: scale(1.04);
-      filter: grayscale(1) contrast(1.45);
+      filter: none;
     }
 
     .hero-visual .image-frame img {
@@ -236,21 +252,17 @@
       object-fit: cover;
     }
 
-    .document-panel {
+    .quick-links {
       border: 1px solid #ffffff;
-      padding: 1.4rem;
+      padding: 1.2rem;
       display: grid;
-      gap: 1rem;
+      gap: 0.75rem;
       background: #000000;
     }
 
-    .document-panel h2 {
-      font-size: 1.35rem;
+    .quick-links h2 {
+      font-size: 1.1rem;
       line-height: 1.1;
-    }
-
-    .document-panel p {
-      font-size: 0.92rem;
     }
 
     .marquee {
@@ -270,6 +282,45 @@
       animation: marquee 18s linear infinite;
     }
 
+
+    .red-divider {
+      position: relative;
+      height: 3px;
+      width: min(100%, 1440px);
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--qarm-red), transparent);
+      box-shadow: 0 0 18px var(--qarm-red-glow);
+      opacity: 0.85;
+      overflow: hidden;
+    }
+
+    .red-divider::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -20%;
+      width: 20%;
+      background: #ffffff;
+      opacity: 0.55;
+      filter: blur(3px);
+      animation: red-scan 5.5s ease-in-out infinite;
+    }
+
+    .project-story::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--qarm-red), transparent);
+      box-shadow: 0 0 14px var(--qarm-red-soft);
+      opacity: 0.55;
+      pointer-events: none;
+      z-index: 3;
+    }
+
     section {
       padding: 5rem 3rem;
       border-bottom: 1px solid #ffffff;
@@ -279,78 +330,99 @@
       margin-bottom: 2.5rem;
     }
 
-    .featured-strip {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid #ffffff;
-      margin-bottom: 3rem;
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
     }
 
-    .featured-strip .image-frame {
+    .quick-copy {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      font-family: "Space Mono", monospace;
+    }
+
+    .project-stories-wrap {
+      padding-top: 6rem;
+    }
+
+    .project-stories {
+      display: grid;
+      gap: 3rem;
+    }
+
+    .project-story {
+      min-height: 76vh;
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      border: 1px solid #ffffff;
+      background: #000000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-story.reverse {
+      grid-template-columns: 0.75fr 1.25fr;
+    }
+
+    .project-story.reverse .story-media {
+      order: 2;
+    }
+
+    .story-media {
+      min-height: 560px;
       border: 0;
       border-right: 1px solid #ffffff;
-      min-height: 260px;
     }
 
-    .featured-strip .image-frame:last-child {
+    .project-story.reverse .story-media {
       border-right: 0;
+      border-left: 1px solid #ffffff;
     }
 
-    .featured-strip img {
-      height: 280px;
+    .story-media img {
+      height: 100%;
+      min-height: 560px;
       object-fit: cover;
     }
 
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    .story-media-label {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      padding: 0.45rem 0.6rem;
       border: 1px solid #ffffff;
-    }
-
-    .project-card {
-      border-right: 1px solid #ffffff;
-      border-bottom: 1px solid #ffffff;
-      min-height: 520px;
-      display: grid;
-      grid-template-rows: 210px 1fr;
       background: #000000;
-      transition: transform 0.22s ease, background 0.22s ease;
+      font-family: "Space Mono", monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
     }
 
-    .project-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .project-card:nth-child(3n) {
-      border-right: 0;
-    }
-
-    .project-media img {
-      height: 210px;
-      object-fit: cover;
-    }
-
-    .project-content {
-      padding: 1.7rem;
+    .story-content {
+      padding: clamp(1.5rem, 4vw, 3rem);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 1.4rem;
+      justify-content: center;
+      min-height: 560px;
     }
 
     .project-tag {
       font-size: 0.7rem;
-      margin-bottom: 0.9rem;
+      margin-bottom: 1rem;
     }
 
     .project-title {
-      font-size: 1.35rem;
-      line-height: 1.12;
-      margin-bottom: 0.85rem;
+      font-size: clamp(1.75rem, 4vw, 3.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.2rem;
     }
 
     .project-desc {
-      font-size: 0.9rem;
+      font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+      max-width: 620px;
+      margin-bottom: 1.7rem;
     }
 
     .project-links {
@@ -361,15 +433,18 @@
 
     .project-link {
       font-family: "Space Mono", monospace;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
+      font-weight: 700;
       text-decoration: none;
-      border-bottom: 1px solid #ffffff;
-      padding-bottom: 0.2rem;
+      border: 1px solid #ffffff;
+      padding: 0.55rem 0.75rem;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .project-link:hover {
       background: #ffffff;
       color: #000000;
+      transform: translateY(-2px);
     }
 
     .skills-grid {
@@ -480,6 +555,12 @@
       transform: translateY(0);
     }
 
+    @keyframes red-scan {
+      0%, 45% { transform: translateX(0); opacity: 0; }
+      55% { opacity: 0.6; }
+      100% { transform: translateX(700%); opacity: 0; }
+    }
+
     @keyframes marquee {
       from { transform: translateX(0); }
       to { transform: translateX(-50%); }
@@ -494,17 +575,26 @@
       .hero,
       .about-grid,
       .contact-wrap,
-      .featured-strip {
+      .project-story,
+      .project-story.reverse {
         grid-template-columns: 1fr;
       }
 
-      .featured-strip .image-frame {
-        border-right: 0;
-        border-bottom: 1px solid #ffffff;
+      .project-story.reverse .story-media {
+        order: 0;
+        border-left: 0;
       }
 
-      .featured-strip .image-frame:last-child {
-        border-bottom: 0;
+      .story-media,
+      .project-story.reverse .story-media {
+        border-right: 0;
+        border-bottom: 1px solid #ffffff;
+        min-height: 320px;
+      }
+
+      .story-media img,
+      .story-content {
+        min-height: 320px;
       }
     }
 
@@ -521,11 +611,6 @@
       section {
         padding-left: 1.25rem;
         padding-right: 1.25rem;
-      }
-
-      .project-card,
-      .project-card:nth-child(3n) {
-        border-right: 0;
       }
 
       footer {
@@ -560,71 +645,69 @@
       </div>
 
       <aside class="hero-visual reveal">
-        <div class="image-frame tilt">
-          <img src="assets/thesis-qarm.jpg" alt="Quanser QArm robot facing a stack of cubes">
+        <div>
+          <div class="image-frame tilt">
+            <img src="assets/thesis-qarm.jpg" alt="Quanser QArm thesis robot facing a stack of cubes">
+          </div>
+          <p class="caption">Thesis Prototype: Quanser QArm sorting and stacking cubes with perception, validation, and motion safety checks.</p>
         </div>
-        <div class="document-panel">
-          <p class="mini-label">Project Documents</p>
-          <h2>Resume And Dark Format Mechatronics Portfolio</h2>
-          <p>Both documents are linked directly from the homepage so visitors can open them without searching through the repo.</p>
+        <div class="quick-links">
+          <p class="mini-label">Documents</p>
+          <h2>Resume And Full Mechatronics Portfolio</h2>
+          <p class="quick-copy">Open the full portfolio for project writeups, images, and demo links.</p>
           <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Open Portfolio</a>
           <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">Open Resume</a>
-          <a class="button" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
-          <a class="button" href="https://www.linkedin.com/in/tomasfranco7/" target="_blank">LinkedIn</a>
         </div>
       </aside>
     </section>
 
-    <div class="marquee" aria-hidden="true">
-      <span>ROBOTICS | MECHATRONICS | MACHINE LEARNING | COMPUTER VISION | EMBEDDED SYSTEMS | PCB DESIGN | ROBOT MANIPULATION | </span><span>ROBOTICS | MECHATRONICS | MACHINE LEARNING | COMPUTER VISION | EMBEDDED SYSTEMS | PCB DESIGN | ROBOT MANIPULATION | </span>
-    </div>
+    <div class="red-divider" aria-hidden="true"></div>
 
-    <section id="projects">
+    <section id="projects" class="project-stories-wrap">
       <p class="section-title reveal">Selected Projects</p>
-      <div class="featured-strip reveal">
-        <div class="image-frame"><img src="assets/mxcarkit.jpg" alt="Small autonomous vehicle platform"></div>
-        <div class="image-frame"><img src="assets/romi.jpg" alt="Romi line following robot"></div>
-        <div class="image-frame"><img src="assets/dal-i.jpg" alt="DAL-I robotic drafter"></div>
-      </div>
+      <p class="section-intro reveal">A scroll based project section with larger visuals and tighter writeups. The full mechatronics portfolio stays available for deeper documentation.</p>
 
-      <div class="projects-grid">
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/thesis-qarm.jpg" alt="Thesis pick and place robot"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">Thesis In Progress</p>
-              <h2 class="project-title">LLM Guided Autonomous Pick And Place</h2>
-              <p class="project-desc">Closed loop manipulation pipeline on the Quanser QArm using RGB depth sensing, YOLO instance segmentation, and an LLM planner. The system handles cube sorting and stacking with grasp checks, gain tuning, scene validation, and motion safety limits.</p>
-            </div>
+      <div class="project-stories">
+        <article class="project-story reveal">
+          <div class="story-media image-frame tilt">
+            <img src="assets/thesis-qarm.jpg" alt="Quanser QArm thesis robot facing stacked cubes">
+            <p class="story-media-label">Thesis Prototype</p>
+          </div>
+          <div class="story-content">
+            <p class="project-tag">Thesis In Progress</p>
+            <h2 class="project-title">LLM Guided Autonomous Pick And Place</h2>
+            <p class="project-desc">Closed loop manipulation on the Quanser QArm using RGB depth sensing, YOLO instance segmentation, and an LLM planner. The system sorts and stacks cubes with grasp checks, scene validation, gain tuning, and motion safety limits.</p>
             <div class="project-links">
-              <a class="project-link" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
-              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Portfolio Writeup</a>
+              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf#page=1" target="_blank">Portfolio Writeup</a>
+              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf#page=1" target="_blank">Video In Portfolio</a>
             </div>
           </div>
         </article>
 
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/mxcarkit.jpg" alt="MXCarkit autonomous driving project"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">Autonomous Vehicles</p>
-              <h2 class="project-title">MXCarkit Autonomous Driving Pipeline</h2>
-              <p class="project-desc">Autonomous driving pipeline using Docker, PilotNet behavioral cloning, YOLOv11 traffic light detection, ROS2, Python, Foxglove validation, and live hardware testing on a small multi sensor vehicle platform.</p>
-            </div>
+        <article class="project-story reveal reverse">
+          <div class="story-media image-frame tilt">
+            <img src="assets/mxcarkit.jpg" alt="MXCarkit autonomous driving vehicle on course">
+            <p class="story-media-label">Autonomous Vehicle</p>
+          </div>
+          <div class="story-content">
+            <p class="project-tag">Autonomous Vehicles</p>
+            <h2 class="project-title">MXCarkit Autonomous Driving Pipeline</h2>
+            <p class="project-desc">End to end autonomous driving pipeline using Docker, PilotNet behavioral cloning, YOLOv11 traffic light detection, ROS2, Python, Foxglove validation, and live hardware testing on a small multi sensor vehicle platform.</p>
             <div class="project-links">
               <a class="project-link" href="https://youtube.com/shorts/HvuyGzoIKhY?feature=share" target="_blank">Video</a>
             </div>
           </div>
         </article>
 
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/healbot-qarm.jpg" alt="Healbot Quanser QArm project"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">Vision And Speech Pipeline</p>
-              <h2 class="project-title">Healbot Robotic Assistant</h2>
-              <p class="project-desc">Robotic assistant that interprets symptom focused speech requests, selects the correct item with an LLM, uses YOLO for object detection, and completes pick and place actions with the Quanser QArm.</p>
-            </div>
+        <article class="project-story reveal">
+          <div class="story-media image-frame tilt">
+            <img src="assets/healbot-qarm.jpg" alt="Healbot Quanser QArm robot project">
+            <p class="story-media-label">Vision And Speech</p>
+          </div>
+          <div class="story-content">
+            <p class="project-tag">Vision And Speech Pipeline</p>
+            <h2 class="project-title">Healbot Robotic Assistant</h2>
+            <p class="project-desc">Robotic assistant that interprets symptom focused speech requests, selects the correct item with an LLM, uses YOLO for object detection, and completes pick and place actions with the Quanser QArm.</p>
             <div class="project-links">
               <a class="project-link" href="https://github.com/TomasEzFranco/Healbot" target="_blank">GitHub</a>
               <a class="project-link" href="https://www.youtube.com/watch?v=xKzFN9P7FqU&feature=youtu.be" target="_blank">Video</a>
@@ -632,14 +715,15 @@
           </div>
         </article>
 
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/romi.jpg" alt="Romi line following robot hardware"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">Mobile Robotics</p>
-              <h2 class="project-title">ROMI Line Following Robot</h2>
-              <p class="project-desc">Differential drive robot using IR sensing, wheel encoders, IMU feedback, heading control, and dead reckoning to complete a closed course with checkpoints and wall detection.</p>
-            </div>
+        <article class="project-story reveal reverse">
+          <div class="story-media image-frame tilt">
+            <img src="assets/romi.jpg" alt="Romi line following robot hardware">
+            <p class="story-media-label">Mobile Robot</p>
+          </div>
+          <div class="story-content">
+            <p class="project-tag">Mobile Robotics</p>
+            <h2 class="project-title">ROMI Line Following Robot</h2>
+            <p class="project-desc">Differential drive robot using IR sensing, wheel encoders, IMU feedback, heading control, and dead reckoning to complete a closed course with checkpoints and wall detection.</p>
             <div class="project-links">
               <a class="project-link" href="https://github.com/TomasEzFranco/Romi_Line_Follower" target="_blank">GitHub</a>
               <a class="project-link" href="https://www.youtube.com/watch?v=yved8C4mFfU" target="_blank">Video</a>
@@ -647,35 +731,24 @@
           </div>
         </article>
 
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/dal-i.jpg" alt="DAL-I robotic drafting system"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">PCB And Robotics</p>
-              <h2 class="project-title">DAL-I Robotic Drafter</h2>
-              <p class="project-desc">Robotic drafting system with an RRP architecture. I worked on electrical design, custom PCB development, board bring up, wiring, software, and physical system integration.</p>
-            </div>
+        <article class="project-story reveal">
+          <div class="story-media image-frame tilt">
+            <img src="assets/dal-i.jpg" alt="DAL-I robotic drafting system">
+            <p class="story-media-label">PCB And Robotics</p>
+          </div>
+          <div class="story-content">
+            <p class="project-tag">PCB And Robotics</p>
+            <h2 class="project-title">DAL-I Robotic Drafter</h2>
+            <p class="project-desc">Robotic drafting system with an RRP architecture. I worked on electrical design, custom PCB development, board bring up, wiring, software, and physical system integration.</p>
             <div class="project-links">
               <a class="project-link" href="https://github.com/TomasEzFranco/Robot-Aided-Drafter" target="_blank">GitHub</a>
             </div>
           </div>
         </article>
-
-        <article class="project-card reveal tilt">
-          <div class="project-media image-frame"><img src="assets/healbot-pipeline.jpg" alt="Healbot pipeline diagram"></div>
-          <div class="project-content">
-            <div>
-              <p class="project-tag">System Design</p>
-              <h2 class="project-title">Speech To Robot Pipeline</h2>
-              <p class="project-desc">Pipeline concept showing speech input, LLM reasoning, vision detection, kinematics, and pick and place execution. This keeps the homepage focused on robotics, mechatronics, and system integration work.</p>
-            </div>
-            <div class="project-links">
-              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Portfolio</a>
-            </div>
-          </div>
-        </article>
       </div>
     </section>
+
+    <div class="red-divider" aria-hidden="true"></div>
 
     <section id="skills">
       <p class="section-title reveal">Technical Skills</p>
@@ -726,6 +799,8 @@
       </div>
     </section>
 
+    <div class="red-divider" aria-hidden="true"></div>
+
     <section id="about">
       <p class="section-title reveal">About</p>
       <div class="about-grid">
@@ -750,6 +825,8 @@
         </div>
       </div>
     </section>
+
+    <div class="red-divider" aria-hidden="true"></div>
 
     <section id="contact">
       <div class="contact-wrap">
