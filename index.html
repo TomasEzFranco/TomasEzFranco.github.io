@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tomas Franco | Robotics And Mechatronics</title>
+  <title>Tomas Franco | Robotics And Mechatronics Portfolio</title>
+  <meta name="description" content="Tomas Franco robotics and mechatronics portfolio featuring LLM-guided manipulation, autonomous driving, computer vision, PCB design, and hardware-software integration projects.">
+  <meta property="og:title" content="Tomas Franco | Robotics And Mechatronics Portfolio">
+  <meta property="og:description" content="Robotics, mechatronics, computer vision, automation, and hardware validation projects.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#000000">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -56,7 +61,10 @@
     :root {
       --qarm-red: #ff2b2b;
       --qarm-red-soft: rgba(255,43,43,0.18);
-      --qarm-red-glow: rgba(255,43,43,0.48);
+      --qarm-red-glow: rgba(255,43,43,0.62);
+      --line: #ffffff;
+      --black: #000000;
+      --white: #ffffff;
     }
 
     a {
@@ -152,6 +160,18 @@
       gap: 0.85rem;
     }
 
+    .focus-line {
+      max-width: 840px;
+      margin: -0.8rem 0 2rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--qarm-red);
+      font-family: "Space Mono", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      line-height: 1.55;
+      box-shadow: -12px 0 28px rgba(255,43,43,0.10);
+    }
+
     .button {
       position: relative;
       overflow: hidden;
@@ -213,6 +233,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.14em;
       background: #000000;
+      box-shadow: inset 3px 0 0 rgba(255,43,43,0.75);
     }
 
     .image-frame {
@@ -223,18 +244,41 @@
       transform-style: preserve-3d;
     }
 
-    .image-frame::after {
+    .image-frame::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.22) 45%, transparent 60%);
-      transform: translateX(-120%);
-      transition: transform 0.65s ease;
       pointer-events: none;
+      border: 1px solid rgba(255,43,43,0.42);
+      box-shadow: inset 0 0 0 rgba(255,43,43,0), 0 0 0 rgba(255,43,43,0);
+      opacity: 0;
+      transition: opacity 0.35s ease, box-shadow 0.35s ease;
+      z-index: 2;
+    }
+
+    .image-frame::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9rem;
+      height: 9rem;
+      border: 1px solid rgba(255,255,255,0.85);
+      border-radius: 999px;
+      box-shadow: 0 0 0 0 rgba(255,43,43,0.45), 0 0 34px rgba(255,43,43,0.25);
+      transform: translate(-50%, -50%) scale(0.12);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .image-frame:hover::before {
+      opacity: 1;
+      box-shadow: inset 0 0 52px rgba(255,43,43,0.20), 0 0 30px rgba(255,43,43,0.30);
     }
 
     .image-frame:hover::after {
-      transform: translateX(120%);
+      animation: ripple-ring 0.95s ease-out;
     }
 
     .image-frame img {
@@ -285,12 +329,12 @@
 
     .red-divider {
       position: relative;
-      height: 3px;
+      height: 5px;
       width: min(100%, 1440px);
       margin: 0 auto;
-      background: linear-gradient(90deg, transparent, var(--qarm-red), transparent);
-      box-shadow: 0 0 18px var(--qarm-red-glow);
-      opacity: 0.85;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,43,43,0.72) 18%, var(--qarm-red) 50%, rgba(255,43,43,0.72) 82%, transparent 100%);
+      box-shadow: 0 0 18px rgba(255,43,43,0.72), 0 0 56px rgba(255,43,43,0.34);
+      opacity: 0.95;
       overflow: hidden;
     }
 
@@ -315,8 +359,8 @@
       right: 0;
       height: 2px;
       background: linear-gradient(90deg, transparent, var(--qarm-red), transparent);
-      box-shadow: 0 0 14px var(--qarm-red-soft);
-      opacity: 0.55;
+      box-shadow: 0 0 16px rgba(255,43,43,0.34), 0 0 32px rgba(255,43,43,0.12);
+      opacity: 0.82;
       pointer-events: none;
       z-index: 3;
     }
@@ -407,6 +451,15 @@
       min-height: 560px;
     }
 
+    .project-number {
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--qarm-red);
+      text-shadow: 0 0 16px rgba(255,43,43,0.45);
+      margin-bottom: 0.7rem;
+    }
+
     .project-tag {
       font-size: 0.7rem;
       margin-bottom: 1rem;
@@ -422,7 +475,18 @@
     .project-desc {
       font-size: clamp(0.95rem, 1.25vw, 1.1rem);
       max-width: 620px;
+      margin-bottom: 1rem;
+    }
+
+    .project-tools {
+      max-width: 680px;
       margin-bottom: 1.7rem;
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      line-height: 1.6;
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.45);
     }
 
     .project-links {
@@ -535,6 +599,36 @@
       padding-bottom: 0.25rem;
     }
 
+    .sticky-action-bar {
+      position: fixed;
+      right: 1.25rem;
+      bottom: 1.25rem;
+      z-index: 120;
+      display: flex;
+      gap: 0.45rem;
+      padding: 0.45rem;
+      border: 1px solid rgba(255,255,255,0.8);
+      background: rgba(0,0,0,0.86);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 26px rgba(255,43,43,0.16);
+    }
+
+    .sticky-action-bar a {
+      font-family: "Space Mono", monospace;
+      font-size: 0.66rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.55);
+      padding: 0.48rem 0.6rem;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .sticky-action-bar a:hover {
+      background: var(--qarm-red);
+      border-color: var(--qarm-red);
+      color: #000000;
+    }
+
     footer {
       padding: 1.6rem 3rem;
       display: flex;
@@ -555,6 +649,22 @@
       transform: translateY(0);
     }
 
+    @keyframes ripple-ring {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.08);
+        box-shadow: 0 0 0 0 rgba(255,43,43,0.42), 0 0 0 0 rgba(255,255,255,0.18);
+      }
+      18% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(4.2);
+        box-shadow: 0 0 0 20px rgba(255,43,43,0), 0 0 0 42px rgba(255,255,255,0);
+      }
+    }
+
     @keyframes red-scan {
       0%, 45% { transform: translateX(0); opacity: 0; }
       55% { opacity: 0.6; }
@@ -569,6 +679,20 @@
     @keyframes grid-drift {
       from { background-position: 0 0; }
       to { background-position: 42px 42px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
     }
 
     @media (max-width: 1000px) {
@@ -617,6 +741,10 @@
         padding: 1.5rem 1.25rem;
         flex-direction: column;
       }
+
+      .sticky-action-bar {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -631,32 +759,39 @@
     </ul>
   </nav>
 
+  <div class="sticky-action-bar" aria-label="Quick links">
+    <a href="TomasFrancoResume2026.April.pdf" target="_blank" rel="noopener">Resume</a>
+    <a href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank" rel="noopener">Portfolio</a>
+    <a href="https://github.com/TomasEzFranco" target="_blank" rel="noopener">GitHub</a>
+  </div>
+
   <main id="top">
     <section class="hero">
       <div class="reveal">
         <p class="eyebrow">Robotics | Mechatronics | Machine Learning</p>
         <h1>Tomas Franco</h1>
-        <p class="hero-copy">M.S. Mechanical Engineering candidate at Cal Poly SLO building robotic systems that perceive, decide, and act. My work spans LLM guided manipulation, autonomous driving, PCB design, embedded systems, and computer vision.</p>
+        <p class="hero-copy">M.S. Mechanical Engineering candidate at Cal Poly SLO building robotic systems that perceive, decide, and act across hardware, software, sensing, and control.</p>
+        <p class="focus-line">Currently focused on LLM guided robot manipulation, sensor based validation, automation, and reliable hardware software integration.</p>
         <div class="button-row">
           <a class="button primary" href="#projects">View Projects</a>
-          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">View Resume</a>
-          <a class="button" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">View Mechatronics Portfolio</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank" rel="noopener">View Resume</a>
+          <a class="button" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank" rel="noopener">View Mechatronics Portfolio</a>
         </div>
       </div>
 
       <aside class="hero-visual reveal">
         <div>
           <div class="image-frame tilt">
-            <img src="assets/thesis-qarm.jpg" alt="Quanser QArm thesis robot facing a stack of cubes">
+            <img src="assets/thesis-qarm.webp" alt="Quanser QArm performing cube manipulation for LLM guided thesis project" fetchpriority="high" decoding="async">
           </div>
           <p class="caption">Thesis Prototype: Quanser QArm sorting and stacking cubes with perception, validation, and motion safety checks.</p>
         </div>
         <div class="quick-links">
           <p class="mini-label">Documents</p>
-          <h2>Resume And Full Mechatronics Portfolio</h2>
-          <p class="quick-copy">Open the full portfolio for project writeups, images, and demo links.</p>
-          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">Open Portfolio</a>
-          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">Open Resume</a>
+          <h2>Resume And Project Portfolio</h2>
+          <p class="quick-copy">A quick path to my resume, detailed project documentation, build photos, GitHub links, and video demos.</p>
+          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank" rel="noopener">Open Portfolio</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank" rel="noopener">Open Resume</a>
         </div>
       </aside>
     </section>
@@ -665,83 +800,92 @@
 
     <section id="projects" class="project-stories-wrap">
       <p class="section-title reveal">Selected Projects</p>
-      <p class="section-intro reveal">A scroll based project section with larger visuals and tighter writeups. The full mechatronics portfolio stays available for deeper documentation.</p>
+      <p class="section-intro reveal">Large visual project highlights with concise summaries, tools used, and direct links to demos, GitHub repos, and the full portfolio writeup.</p>
 
       <div class="project-stories">
         <article class="project-story reveal">
           <div class="story-media image-frame tilt">
-            <img src="assets/thesis-qarm.jpg" alt="Quanser QArm thesis robot facing stacked cubes">
+            <img src="assets/thesis-qarm.webp" alt="Quanser QArm thesis robot facing stacked cubes" loading="lazy" decoding="async">
             <p class="story-media-label">Thesis Prototype</p>
           </div>
           <div class="story-content">
+            <p class="project-number">01 / THESIS</p>
             <p class="project-tag">Thesis In Progress</p>
             <h2 class="project-title">LLM Guided Autonomous Pick And Place</h2>
             <p class="project-desc">Closed loop manipulation on the Quanser QArm using RGB depth sensing, YOLO instance segmentation, and an LLM planner. The system sorts and stacks cubes with grasp checks, scene validation, gain tuning, and motion safety limits.</p>
+            <p class="project-tools">TOOLS: PYTHON, YOLO, RGB-D SENSING, CURRENT SENSING, QUANSER QARM, CONTROL TUNING, LLM PLANNING</p>
             <div class="project-links">
-              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf#page=1" target="_blank">Portfolio Writeup</a>
-              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf#page=1" target="_blank">Video In Portfolio</a>
+              <a class="project-link" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf#page=1" target="_blank" rel="noopener">Portfolio Writeup</a>
             </div>
           </div>
         </article>
 
         <article class="project-story reveal reverse">
           <div class="story-media image-frame tilt">
-            <img src="assets/mxcarkit.jpg" alt="MXCarkit autonomous driving vehicle on course">
+            <img src="assets/mxcarkit.webp" alt="MXCarkit autonomous driving vehicle on course" loading="lazy" decoding="async">
             <p class="story-media-label">Autonomous Vehicle</p>
           </div>
           <div class="story-content">
+            <p class="project-number">02 / AUTONOMOUS DRIVING</p>
             <p class="project-tag">Autonomous Vehicles</p>
             <h2 class="project-title">MXCarkit Autonomous Driving Pipeline</h2>
             <p class="project-desc">End to end autonomous driving pipeline using Docker, PilotNet behavioral cloning, YOLOv11 traffic light detection, ROS2, Python, Foxglove validation, and live hardware testing on a small multi sensor vehicle platform.</p>
+            <p class="project-tools">TOOLS: PYTHON, ROS2, DOCKER, PILOTNET, YOLOV11, FOXGLOVE, ONNX, HARDWARE VALIDATION</p>
             <div class="project-links">
-              <a class="project-link" href="https://youtube.com/shorts/HvuyGzoIKhY?feature=share" target="_blank">Video</a>
+              <a class="project-link" href="https://youtube.com/shorts/HvuyGzoIKhY?feature=share" target="_blank" rel="noopener">Video</a>
             </div>
           </div>
         </article>
 
         <article class="project-story reveal">
           <div class="story-media image-frame tilt">
-            <img src="assets/healbot-qarm.jpg" alt="Healbot Quanser QArm robot project">
+            <img src="assets/healbot-qarm.webp" alt="Healbot Quanser QArm robot project" loading="lazy" decoding="async">
             <p class="story-media-label">Vision And Speech</p>
           </div>
           <div class="story-content">
+            <p class="project-number">03 / HEALBOT</p>
             <p class="project-tag">Vision And Speech Pipeline</p>
             <h2 class="project-title">Healbot Robotic Assistant</h2>
             <p class="project-desc">Robotic assistant that interprets symptom focused speech requests, selects the correct item with an LLM, uses YOLO for object detection, and completes pick and place actions with the Quanser QArm.</p>
+            <p class="project-tools">TOOLS: PYTHON, SPEECH INPUT, LLM REASONING, YOLO, QUANSER QARM, INVERSE KINEMATICS</p>
             <div class="project-links">
-              <a class="project-link" href="https://github.com/TomasEzFranco/Healbot" target="_blank">GitHub</a>
-              <a class="project-link" href="https://www.youtube.com/watch?v=xKzFN9P7FqU&feature=youtu.be" target="_blank">Video</a>
+              <a class="project-link" href="https://github.com/TomasEzFranco/Healbot" target="_blank" rel="noopener">GitHub</a>
+              <a class="project-link" href="https://www.youtube.com/watch?v=xKzFN9P7FqU&feature=youtu.be" target="_blank" rel="noopener">Video</a>
             </div>
           </div>
         </article>
 
         <article class="project-story reveal reverse">
           <div class="story-media image-frame tilt">
-            <img src="assets/romi.jpg" alt="Romi line following robot hardware">
+            <img src="assets/romi.webp" alt="Romi line following robot hardware" loading="lazy" decoding="async">
             <p class="story-media-label">Mobile Robot</p>
           </div>
           <div class="story-content">
+            <p class="project-number">04 / ROMI</p>
             <p class="project-tag">Mobile Robotics</p>
             <h2 class="project-title">ROMI Line Following Robot</h2>
             <p class="project-desc">Differential drive robot using IR sensing, wheel encoders, IMU feedback, heading control, and dead reckoning to complete a closed course with checkpoints and wall detection.</p>
+            <p class="project-tools">TOOLS: PYTHON, IR SENSOR ARRAY, ENCODERS, BNO055 IMU, CLOSED LOOP CONTROL, DEAD RECKONING</p>
             <div class="project-links">
-              <a class="project-link" href="https://github.com/TomasEzFranco/Romi_Line_Follower" target="_blank">GitHub</a>
-              <a class="project-link" href="https://www.youtube.com/watch?v=yved8C4mFfU" target="_blank">Video</a>
+              <a class="project-link" href="https://github.com/TomasEzFranco/Romi_Line_Follower" target="_blank" rel="noopener">GitHub</a>
+              <a class="project-link" href="https://www.youtube.com/watch?v=yved8C4mFfU" target="_blank" rel="noopener">Video</a>
             </div>
           </div>
         </article>
 
         <article class="project-story reveal">
           <div class="story-media image-frame tilt">
-            <img src="assets/dal-i.jpg" alt="DAL-I robotic drafting system">
+            <img src="assets/dal-i.webp" alt="DAL-I robotic drafting system" loading="lazy" decoding="async">
             <p class="story-media-label">PCB And Robotics</p>
           </div>
           <div class="story-content">
+            <p class="project-number">05 / DAL-I</p>
             <p class="project-tag">PCB And Robotics</p>
             <h2 class="project-title">DAL-I Robotic Drafter</h2>
             <p class="project-desc">Robotic drafting system with an RRP architecture. I worked on electrical design, custom PCB development, board bring up, wiring, software, and physical system integration.</p>
+            <p class="project-tools">TOOLS: PCB DESIGN, ELECTRICAL SCHEMATICS, BOARD BRING UP, SOLDERING, G-CODE, ROBOTICS INTEGRATION</p>
             <div class="project-links">
-              <a class="project-link" href="https://github.com/TomasEzFranco/Robot-Aided-Drafter" target="_blank">GitHub</a>
+              <a class="project-link" href="https://github.com/TomasEzFranco/Robot-Aided-Drafter" target="_blank" rel="noopener">GitHub</a>
             </div>
           </div>
         </article>
@@ -830,13 +974,13 @@
 
     <section id="contact">
       <div class="contact-wrap">
-        <h2 class="contact-heading reveal">Let's Build Something That Moves</h2>
+        <h2 class="contact-heading reveal">Interested In Robotics, Automation, Mechatronics, Or Hardware Validation Roles.</h2>
         <div class="contact-links reveal">
           <a class="contact-link" href="mailto:tofranco@calpoly.edu">Email Tomas</a>
-          <a class="contact-link" href="https://github.com/TomasEzFranco" target="_blank">GitHub</a>
-          <a class="contact-link" href="https://www.linkedin.com/in/tomasfranco7/" target="_blank">LinkedIn</a>
-          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank">View Mechatronics Portfolio</a>
-          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank">View Resume</a>
+          <a class="contact-link" href="https://github.com/TomasEzFranco" target="_blank" rel="noopener">GitHub</a>
+          <a class="contact-link" href="https://www.linkedin.com/in/tomasfranco7/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="button primary" href="Tomas%20Franco%20Mechatronics%20Portfolio.pdf" target="_blank" rel="noopener">View Mechatronics Portfolio</a>
+          <a class="button" href="TomasFrancoResume2026.April.pdf" target="_blank" rel="noopener">View Resume</a>
         </div>
       </div>
     </section>
@@ -844,7 +988,7 @@
 
   <footer>
     <p>Tomas Franco | Cal Poly SLO | 2026</p>
-    <p>Robotics | Mechatronics | Machine Learning</p>
+    <p>Robotics | Automation | Mechatronics | Hardware Validation</p>
   </footer>
 
   <script>
